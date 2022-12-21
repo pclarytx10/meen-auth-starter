@@ -1,6 +1,7 @@
 // Dependencies
 const express = require('express');
 const app = express();
+const session = require('express-session');
 const mongoose = require('mongoose');
 
 // Environment Variables
@@ -19,8 +20,38 @@ db.on('connected', () => console.log('mongo connected'));
 db.on('disconnected', () => console.log('mongo disconnected'));
 
 // Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(
+    session({
+        secret: process.env.SECRET,
+        resave: false,
+        saveUninitialized: false
+    }));
+const sessionsController = require('./controllers/sessions');
+app.use('/sessions', sessionsController);
 
 // Controllers
+const userController = require('./controllers/users');
+app.use('/users', userController);
+
+// Routes
+
+// Index
+app.get('/', (req, res) => {
+	res.render('index.ejs');
+});
+
+// New
+
+// Delete
+
+// Update
+
+// Create
+
+// Edit
+
+// Show
 
 // Listener
 const PORT = process.env.PORT;
