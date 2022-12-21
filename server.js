@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 
 // Environment Variables
 require('dotenv').config();
@@ -27,6 +28,7 @@ app.use(
         resave: false,
         saveUninitialized: false
     }));
+app.use(methodOverride('_method'));
 
 // Controllers
 const userController = require('./controllers/users');
@@ -38,7 +40,15 @@ app.use('/sessions', sessionsController);
 
 // Index
 app.get('/', (req, res) => {
-	res.render('index.ejs');
+	if (req.session.currentUser) {
+		res.render('dashboard.ejs', {
+			currentUser: req.session.currentUser
+		});
+	} else {
+		res.render('index.ejs', {
+			currentUser: req.session.currentUser
+		});
+	}
 });
 
 // New
