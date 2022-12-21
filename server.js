@@ -27,12 +27,12 @@ app.use(
         resave: false,
         saveUninitialized: false
     }));
-const sessionsController = require('./controllers/sessions');
-app.use('/sessions', sessionsController);
 
 // Controllers
 const userController = require('./controllers/users');
 app.use('/users', userController);
+const sessionsController = require('./controllers/sessions');
+app.use('/sessions', sessionsController);
 
 // Routes
 
